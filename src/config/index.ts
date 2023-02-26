@@ -7,7 +7,7 @@ const stage = process.env.STAGE || 'local';
 let envConfig = {};
 
 if (stage === 'production') {
-  envConfig = require('./prod').default;
+  envConfig = require('./production').default;
 } else if (stage === 'staging') {
   envConfig = require('./staging').default;
 } else {
