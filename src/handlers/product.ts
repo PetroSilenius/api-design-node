@@ -72,5 +72,5 @@ export const deleteProduct = async (req: TokenRequest, res: Response) => {
     },
   });
 
-  res.json({ data: {} });
+  res.json({ message: 'Successfully deleted' });
 };
