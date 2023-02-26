@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import router from './router';
 import morgan from 'morgan';
 import cors from 'cors';
@@ -13,7 +13,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 app.use('/api', protect, router);
+
 app.post('/user', createUser);
 app.post('/signin', signIn);
+
+app.use((err: Error, req: Request, res: Response) => {
+  console.log(err);
+  res.json({ message: `Faced an error: ${err.message}` });
+});
 
 export default app;
