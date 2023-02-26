@@ -3,7 +3,7 @@ import type { NextFunction, Request, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 
 export interface TokenRequest extends Request {
-  user?: string | JwtPayload;
+  user?: JwtPayload;
 }
 
 export const createJWT = (user: User) => {
