@@ -25,13 +25,14 @@ model Product {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  name String @db.VarChar(255)
+  name String        @db.VarChar(255)
 
   updates  Update[]
   authorId String   @db.VarChar(255)
   author   User     @relation(fields: [authorId], references: [id])
 
-  @@index([authorId])
+  @@unique([id,authorId])
+  @@unique([authorId])
 }
 
 model Update {
@@ -51,7 +52,7 @@ model Update {
   productId   String
   product     Product       @relation(fields: [productId], references: [id])
 
-  @@index([authorId])
+  @@unique([authorId])
   @@index([productId])
 }
 

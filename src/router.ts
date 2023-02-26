@@ -1,19 +1,21 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
-import { getProductById, getProducts } from './handlers/product';
+import {
+  createProduct,
+  deleteProduct,
+  getProductById,
+  getProducts,
+  updateProduct,
+} from './handlers/product';
 import { handleInputErrors } from './modules/middlewares';
 
 const router = Router();
 
-router.get('/products', (req, res) => {
-  getProducts(req, res);
-});
-router.post('/product', body('name').isString(), handleInputErrors, (req, res) => {});
-router.get('/product/:id', (req, res) => {
-  getProductById(req, res);
-});
-router.put('/product/:id', body('name').isString(), handleInputErrors, (req, res) => {});
-router.delete('/product/:id', () => {});
+router.get('/products', getProducts);
+router.post('/product', body('name').isString(), handleInputErrors, createProduct);
+router.get('/product/:id', getProductById);
+router.put('/product/:id', body('name').isString(), handleInputErrors, updateProduct);
+router.delete('/product/:id', deleteProduct);
 
 router.get('/product/:productId/updates', (req, res) => {
   res.json({ message: 'Hello World!' });
