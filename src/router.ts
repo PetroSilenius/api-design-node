@@ -8,6 +8,13 @@ import {
   updateProduct,
 } from './handlers/product';
 import { handleInputErrors } from './modules/middlewares';
+import {
+  getUpdates,
+  createUpdate,
+  getUpdateById,
+  updateUpdate,
+  deleteUpdate,
+} from './handlers/update';
 
 const router = Router();
 
@@ -17,19 +24,17 @@ router.get('/product/:id', getProductById);
 router.put('/product/:id', body('name').isString(), handleInputErrors, updateProduct);
 router.delete('/product/:id', deleteProduct);
 
-router.get('/product/:productId/updates', (req, res) => {
-  res.json({ message: 'Hello World!' });
-});
+router.get('/product/:productId/updates', getUpdates);
 router.post(
-  '/product/:productId/updates',
+  '/product/:productId/update',
   body('title').isString(),
   body('content').isString(),
   body('status').isIn(['IN_PROGRESS', 'SHIPPED', 'DEPRECATED']),
   body('version').optional().isString(),
   handleInputErrors,
-  () => {}
+  createUpdate
 );
-router.get('/product/:productId/update/:id', () => {});
+router.get('/product/:productId/update/:id', getUpdateById);
 router.put(
   '/product/:productId/update/:id',
   body('title').isString(),
@@ -37,9 +42,9 @@ router.put(
   body('status').isIn(['IN_PROGRESS', 'SHIPPED', 'DEPRECATED']),
   body('version').optional().isString(),
   handleInputErrors,
-  () => {}
+  updateUpdate
 );
-router.delete('/product/:productId/update/:id', () => {});
+router.delete('/product/:productId/update/:id', deleteUpdate);
 
 router.get('/product/:productId/update/:id/updatePoints', () => {});
 router.post(

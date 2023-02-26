@@ -52,7 +52,8 @@ model Update {
   productId   String
   product     Product       @relation(fields: [productId], references: [id])
 
-  @@unique([authorId])
+  @@unique([id,productId])
+  @@index([authorId])
   @@index([productId])
 }
 

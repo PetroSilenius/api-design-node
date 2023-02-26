@@ -65,8 +65,10 @@ export const deleteProduct = async (req: TokenRequest, res: Response) => {
 
   await prisma.product.delete({
     where: {
-      id,
-      authorId: req.user?.id,
+      id_authorId: {
+        id,
+        authorId: req.user?.id,
+      },
     },
   });
 
