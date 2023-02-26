@@ -18,7 +18,7 @@ app.post('/user', createUser);
 app.post('/signin', signIn);
 
 app.use((err: Error, req: Request, res: Response) => {
-  console.log(err);
+  console.error(err);
   res.json({ message: `Faced an error: ${err.message}` });
 });
 
