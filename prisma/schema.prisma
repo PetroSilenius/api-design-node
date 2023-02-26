@@ -1,11 +1,69 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id          String    @id @default(uuid())
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  name        String    @unique
+  password    String
+
+  updates     Update[]
+  products    Product[]
+}
+
+model Product {
+  id          String @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  name        String @db.VarChar(255)
+
+  updates     Update[]
+  authorId    String   @db.VarChar(255)
+  author      User     @relation(fields: [authorId], references: [id])
+}
+
+model Update {
+  id          String        @id @default(uuid())
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+
+  title       String
+  content     String
+  status      UPDATE_STATUS @default(IN_PROGRESS)
+  version     String?
+  asset       String?
+
+  updatePoint UpdatePoint[]
+  authorId    String
+  author      User          @relation(fields: [authorId], references: [id])
+  productId   String
+  product     Product       @relation(fields: [productId], references: [id])
+}
+
+enum UPDATE_STATUS {
+  IN_PROGRESS
+  SHIPPED
+  DEPRECATED
+}
+
+model UpdatePoint {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  name        String   @db.VarChar(255)
+  description String
+
+  updateId    String
+  update      Update   @relation(fields: [updateId], references: [id])
 }
