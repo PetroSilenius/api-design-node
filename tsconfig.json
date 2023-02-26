@@ -6,5 +6,6 @@
     "lib": ["esnext"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true
-  }
+  },
+  "include": ["src/**/*.ts"]
 }
