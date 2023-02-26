@@ -31,7 +31,7 @@ export const protect = (req: TokenRequest, res: Response, next: NextFunction) =>
 
   try {
     const userJWTToken = jwt.verify(token, process.env.JWT_SECRET!);
-    req.user = userJWTToken;
+    if (typeof userJWTToken !== 'string') req.user = userJWTToken;
     next();
   } catch (error) {
     return res.status(401).json({ message: 'Not a valid token' });
